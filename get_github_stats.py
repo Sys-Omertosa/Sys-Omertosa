@@ -321,6 +321,7 @@ def svg_overwrite(filename, age_data, commit_data, star_data, repo_data, contrib
     """
     tree = etree.parse(filename)
     root = tree.getroot()
+    justify_format(root, 'age_data', age_data)
     justify_format(root, 'commit_data', commit_data, 22)
     justify_format(root, 'star_data', star_data, 14)
     justify_format(root, 'repo_data', repo_data, 6)
@@ -340,13 +341,14 @@ def justify_format(root, element_id, new_text, length=0):
         new_text = f"{'{:,}'.format(new_text)}"
     new_text = str(new_text)
     find_and_replace(root, element_id, new_text)
-    just_len = max(0, length - len(new_text))
-    if just_len <= 2:
-        dot_map = {0: '', 1: ' ', 2: '. '}
-        dot_string = dot_map[just_len]
-    else:
-        dot_string = ' ' + ('.' * just_len) + ' '
-    find_and_replace(root, f"{element_id}_dots", dot_string)
+    # Commented out dot justification to preserve custom formatting
+    # just_len = max(0, length - len(new_text))
+    # if just_len <= 2:
+    #     dot_map = {0: '', 1: ' ', 2: '. '}
+    #     dot_string = dot_map[just_len]
+    # else:
+    #     dot_string = ' ' + ('.' * just_len) + ' '
+    # find_and_replace(root, f"{element_id}_dots", dot_string)
 
 
 def find_and_replace(root, element_id, new_text):
